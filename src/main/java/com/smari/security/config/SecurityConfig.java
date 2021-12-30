@@ -35,7 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("mounish")
                 .password(encoder.encode("welcome1"))
-                .roles("ADMIN");
+                .roles("ADMIN")
+                .and()
+                .withUser("jayanthi")
+                .password(encoder.encode("welcome1"))
+                .roles("ACCT");;
     }
 
     /**
@@ -47,9 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeHttpRequests()
-                .antMatchers("/admin")
+                .antMatchers("/rest/v1/security/admin")
                 .hasRole("ADMIN")
-                .antMatchers("/user")
+                .antMatchers("/rest/v1/security/user")
                 .hasAnyRole("ADMIN","USER")
                 .antMatchers("/")
                 .permitAll()
@@ -57,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .formLogin();
-        //only for ht if security is enbled
+        //only for ht if security is enabled
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
